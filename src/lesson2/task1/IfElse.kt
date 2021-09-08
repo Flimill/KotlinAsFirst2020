@@ -62,13 +62,23 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
     return -sqrt(y3)           // 7
 }
 
+fun main() {
+    println(ageDescription(22))
+}
+
 /**
  * Простая (2 балла)
  *
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    val x = age % 10
+    if ((age % 100 >= 11) && (age % 100 <= 15)) return "$age лет"
+    else if (x == 1) return "$age год"
+    else if (x < 5) return "$age года"
+    else return "$age лет"
+}
 
 /**
  * Простая (2 балла)
@@ -81,7 +91,13 @@ fun timeForHalfWay(
     t1: Double, v1: Double,
     t2: Double, v2: Double,
     t3: Double, v3: Double
-): Double = TODO()
+): Double {
+    val s = (v1 * t1 + v2 * t2 + v3 * t3) / 2
+    val t = 0
+    if (v1 * t1 >= s) return s / v1
+    else if ((v1 * t1 + v2 * t2) >= s) return (s - v1 * t1) / v2 + t1
+    else return (s - v1 * t1 - v2 * t2) / v3 + t1 + t2
+}
 
 /**
  * Простая (2 балла)
@@ -96,7 +112,18 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int {
+    var f1 = 0
+    var f2 = 0
+    if (kingX == rookX1) f1 = 1
+    if (kingX == rookX2) f2 = 2
+    if (kingY == rookY1) f1 = 1
+    if (kingY == rookY2) f2 = 2
+    if ((f1 != 0) && (f2 != 0)) return 3
+    else if (f1 != 0) return 1
+    else if (f2 != 0) return 2
+    else return 0
+}
 
 /**
  * Простая (2 балла)
@@ -132,4 +159,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if ((a<c)&&(b<c)) return -1
+    else if ((d<a)&&(d<b)) return -1
+    else if ((a<c)&&(d<b)) return d-c
+    else if ((c<a)&&(b<d)) return b-a
+    else if ((a<c)&&(b<d)) return b-c
+    else return d-a
+}
