@@ -53,7 +53,7 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
  * Пример главной функции
  */
 fun main() {
-    println(seconds(8 ,20, 35))
+    println(seconds(8, 20, 35))
 }
 
 /**
@@ -65,7 +65,7 @@ fun main() {
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
-    return (hours*60+minutes)*60+seconds
+    return (hours * 60 + minutes) * 60 + seconds
 }
 
 /**
@@ -100,7 +100,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = TODO()
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
 fun thirdDigit(number: Int): Int {
-    return ((number%1000)/100)
+    return ((number % 1000) / 100)
 }
 
 /**
@@ -128,5 +128,5 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int {
-    return (number%10*100+  number/10%10*10+  number/100)
+    return (number % 10 * 100 + number / 10 % 10 * 10 + number / 100)
 }

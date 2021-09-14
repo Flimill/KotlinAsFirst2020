@@ -35,6 +35,8 @@ class Tests {
     @Tag("2")
     fun ageDescription() {
         assertEquals("1 год", ageDescription(1))
+        assertEquals("10 лет", ageDescription(10))
+        assertEquals("110 лет", ageDescription(110))
         assertEquals("21 год", ageDescription(21))
         assertEquals("132 года", ageDescription(132))
         assertEquals("12 лет", ageDescription(12))
@@ -85,6 +87,7 @@ class Tests {
         assertEquals(0, segmentLength(1, 2, 2, 4))
         assertEquals(3, segmentLength(3, 6, 0, 9))
         assertEquals(2, segmentLength(2, 5, 3, 9))
+        assertEquals(1, segmentLength(-1, 1, 0, 1))
         assertEquals(1, segmentLength(3, 6, 1, 4))
         assertEquals(4, segmentLength(1, 15, 10, 14))
     }

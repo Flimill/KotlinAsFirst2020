@@ -74,10 +74,14 @@ fun main() {
  */
 fun ageDescription(age: Int): String {
     val x = age % 10
-    if ((age % 100 >= 11) && (age % 100 <= 15)) return "$age лет"
-    else if (x == 1) return "$age год"
-    else if (x < 5) return "$age года"
-    else return "$age лет"
+    val y = age % 100
+    when {
+        (y >= 11) && (y <= 15) -> return "$age лет"
+        (x == 1) -> return "$age год"
+        (x == 0) -> return "$age лет"
+        (x < 5) -> return "$age года"
+        else -> return "$age лет"
+    }
 }
 
 /**
@@ -160,10 +164,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if ((a<c)&&(b<c)) return -1
-    else if ((d<a)&&(d<b)) return -1
-    else if ((a<c)&&(d<b)) return d-c
-    else if ((c<a)&&(b<d)) return b-a
-    else if ((a<c)&&(b<d)) return b-c
-    else return d-a
+    when {
+        (a < c) && (b < c) -> return -1
+        (d < a) && (d < b) -> return -1
+        (a <= c) && (d <= b) -> return d - c
+        (c <= a) && (b <= d) -> return b - a
+        (a <= c) && (b <= d) -> return b - c
+        else -> return d - a
+    }
 }
