@@ -123,10 +123,7 @@ fun whichRookThreatens(
     if (kingX == rookX2) f2 = 2
     if (kingY == rookY1) f1 = 1
     if (kingY == rookY2) f2 = 2
-    if ((f1 != 0) && (f2 != 0)) return 3
-    else if (f1 != 0) return 1
-    else if (f2 != 0) return 2
-    else return 0
+    return f1+f2
 }
 
 /**

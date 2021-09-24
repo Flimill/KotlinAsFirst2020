@@ -36,10 +36,12 @@ fun isNumberHappy(number: Int): Boolean {
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    if (x1 == x2) return true
-    else if (y1 == y2) return true
-    else if (abs(y2 - y1) == abs(x2 - x1)) return true
-    else return false
+    when {
+        x1 == x2 -> return true
+        y1 == y2 -> return true
+        abs(y2 - y1) == abs(x2 - x1) -> return true
+        else -> return false
+    }
 }
 
 
@@ -50,10 +52,12 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  */
 fun daysInMonth(month: Int, year: Int): Int {
     val m1 = setOf(1, 3, 5, 7, 8, 10, 12)
-    if (month in m1) return (31)
-    else if (month != 2) return (30)
-    else if ((year % 400 == 0) || ((year % 100 != 0) && (year % 4 == 0))) return 29
-    else return 28
+    when {
+        month in m1 -> return (31)
+        month != 2 -> return (30)
+        year % 400 == 0 || (year % 100 != 0) && (year % 4 == 0) -> return 29
+        else -> return 28
+    }
 }
 
 /**
@@ -69,8 +73,7 @@ fun circleInside(
 ): Boolean {
     val x = sqr(x2 - x1)
     val y = sqr(y2 - y1)
-    if (sqrt(x + y) <= (r2 - r1)) return true
-    else return false
+    return sqrt(x + y) <= (r2 - r1)
 }
 
 /**
@@ -83,6 +86,6 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    if ((a + b + c - minOf(a, b, c) - maxOf(a, b, c)) * minOf(a, b, c) <= (r * s)) return true
-    else return false
+    val sr=a + b + c - minOf(a, b, c) - maxOf(a, b, c)
+    return (sr * minOf(a, b, c) <= (r * s)) && (minOf(a, b, c) <= min(r, s)) && (sr <= max(r, s))
 }
