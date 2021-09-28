@@ -3,6 +3,7 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
+import java.lang.Integer.min
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.pow
@@ -173,9 +174,9 @@ fun collatzSteps(x: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    val x = if (m > n) m else n
-    for (i in x..(m * n - 1)) {
-        if ((i % n == 0) && (i%m == 0)) return i
+    val x = min(m, n)
+    for (i in x downTo 2) {
+        if ((n % i == 0) && (m % i == 0)) return m * n / i
     }
     return m * n
 }
@@ -296,14 +297,14 @@ fun sin(x: Double, eps: Double): Double {
     }
     var a = x0
     var sin=x0
-    var factor = 1 * 2 * 3
+    var factor = 1.0 * 2.0 * 3.0
     var n = 3
     var count = 1
     while (abs(a) >= eps) {
         if (count % 2 == 1) a = -(x0.pow(n) / factor)
         else a = (x0.pow(n) / factor)
         sin += a
-        factor *= (n + 1) * (n + 2)
+        factor *= ((n + 1) * (n + 2)).toDouble()
         n += 2
         count++
     }
@@ -337,7 +338,7 @@ fun cos(x: Double, eps: Double): Double {
 
     var a = 1.0
     var cos=1.0
-    var factor = 1 * 2
+    var factor = 1.0 * 2.0
     var n = 2
     var count = 1
     if (x== PI/2) {
@@ -349,7 +350,7 @@ fun cos(x: Double, eps: Double): Double {
         if (count % 2 == 1) a = -(x0.pow(n) / factor)
         else a = (x0.pow(n) / factor)
         cos += a
-        factor *= (n + 1) * (n + 2)
+        factor *= ((n + 1) * (n + 2)).toDouble()
         n += 2
         count++
     }
