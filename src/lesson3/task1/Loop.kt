@@ -14,6 +14,8 @@ import kotlin.math.sqrt
 // Рекомендуемое количество баллов = 7
 // Вместе с предыдущими уроками = 16/21
 
+fun Int.powInt(y: Int) = (this.toDouble().pow((y).toDouble())).toInt()
+
 /**
  * Пример
  *
@@ -79,7 +81,9 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var k = 0
-    var x = n
+    var zn = 1
+    if (n < 0) zn = -1
+    var x = zn * n
     if (x == 0) return 1
     while (x > 0) {
         x = (x / 10)
@@ -99,12 +103,11 @@ fun fib(n: Int): Int {
     var b = 1
     var c = 1
     for (i in 3..n) {
-        c = a + b;
+        c = a + b
         a = b
         b = c
     }
-    if (n <= 2) return 1
-    else return c
+    return c
 }
 
 /**
@@ -127,15 +130,8 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var del = 0
-    var k = 1
-    while (del == 0) {
-        k++
-        if (n % k == 0) del = k
-    }
-    return (n / del)
-}
+fun maxDivisor(n: Int): Int = (n / minDivisor(n))
+
 
 /**
  * Простая (2 балла)
@@ -157,8 +153,8 @@ fun collatzSteps(x: Int): Int {
     var y = x
     var count = 0
     while (y != 1) {
-        y= when {
-            y % 2 == 0 -> y/ 2
+        y = when {
+            y % 2 == 0 -> y / 2
             else -> 3 * y + 1
         }
         count++
@@ -244,10 +240,9 @@ fun isPalindrome(n: Int): Boolean {
         k++
     }
     for (i in 1..(k / 2)) {
-        //15751
-        a = (n / (10.0.pow((k - i).toDouble())).toInt()) % 10
+        a = (n / (10.powInt(k - i)) % 10)
         if (i == 1) b = n % 10
-        else b = (n / (10.0.pow((i - 1).toDouble())).toInt()) % 10
+        else b = (n / (10.powInt(i - 1)) % 10)
         if (a != b) return false
     }
     return true
@@ -269,8 +264,7 @@ fun hasDifferentDigits(n: Int): Boolean {
         mn += x % 10
         x /= 10
     }
-    if (mn.count() == 1) return false
-    return true
+    return (mn.count() != 1)
 }
 
 /**
@@ -285,18 +279,18 @@ fun hasDifferentDigits(n: Int): Boolean {
 fun sin(x: Double, eps: Double): Double {
     var x0 = x
     var zn = 1
-    var k1=0
-    var k2=0
-    while (x0 - 2 * PI*k1 > 0.0) k1++
-    x0-=2 * PI*k1
-    while (x0 + 2 * PI*k2 < 0.0) k2++
-    x0+=2 * PI*k2
+    var k1 = 0
+    var k2 = 0
+    while (x0 - 2 * PI * k1 > 0.0) k1++
+    x0 -= 2 * PI * k1
+    while (x0 + 2 * PI * k2 < 0.0) k2++
+    x0 += 2 * PI * k2
     if (x0 >= PI) {
         zn = -1
         x0 -= PI
     }
     var a = x0
-    var sin=x0
+    var sin = x0
     var factor = 1.0 * 2.0 * 3.0
     var n = 3
     var count = 1
@@ -308,7 +302,7 @@ fun sin(x: Double, eps: Double): Double {
         n += 2
         count++
     }
-    return zn*sin
+    return zn * sin
 }
 
 /**
@@ -323,28 +317,28 @@ fun sin(x: Double, eps: Double): Double {
 fun cos(x: Double, eps: Double): Double {
     var x0 = x
     var zn = 1
-    var k1=0
-    var k2=0
-    while (x0 - 2 * PI*k1 > 0.0) k1++
-    x0-=2 * PI*k1
-    while (x0 + 2 * PI*k2 < 0.0) k2++
-    x0+=2 * PI*k2
-    if ((x0 >= PI/2) && (x0 <= 3* PI/2)) {
-        zn=-1
-        if (x0< PI) x0-= PI
-        else x0= PI-x0
+    var k1 = 0
+    var k2 = 0
+    while (x0 - 2 * PI * k1 > 0.0) k1++
+    x0 -= 2 * PI * k1
+    while (x0 + 2 * PI * k2 < 0.0) k2++
+    x0 += 2 * PI * k2
+    if ((x0 >= PI / 2) && (x0 <= 3 * PI / 2)) {
+        zn = -1
+        if (x0 < PI) x0 -= PI
+        else x0 = PI - x0
     }
-    if (x0 > 3* PI/2) x0=2* PI-x0
+    if (x0 > 3 * PI / 2) x0 = 2 * PI - x0
 
     var a = 1.0
-    var cos=1.0
+    var cos = 1.0
     var factor = 1.0 * 2.0
     var n = 2
     var count = 1
-    if (x== PI/2) {
-        cos=0.0
-        a=0.0
-        zn=1
+    if (x == PI / 2) {
+        cos = 0.0
+        a = 0.0
+        zn = 1
     }
     while (abs(a) >= eps) {
         if (count % 2 == 1) a = -(x0.pow(n) / factor)
@@ -354,7 +348,7 @@ fun cos(x: Double, eps: Double): Double {
         n += 2
         count++
     }
-    return zn*cos
+    return zn * cos
 }
 
 /**
@@ -403,7 +397,7 @@ fun fibSequenceDigit(n: Int): Int {
         a = b
         b = c
         c = a + b
-        x=c
+        x = c
         while (x > 0) {
             x /= 10
             count++
