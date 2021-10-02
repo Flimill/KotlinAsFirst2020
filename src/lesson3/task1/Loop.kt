@@ -277,14 +277,8 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
 fun sin(x: Double, eps: Double): Double {
-    var x0 = x
+    var x0 = x % (2 * PI)
     var zn = 1
-    var k1 = 0
-    var k2 = 0
-    while (x0 - 2 * PI * k1 > 0.0) k1++
-    x0 -= 2 * PI * k1
-    while (x0 + 2 * PI * k2 < 0.0) k2++
-    x0 += 2 * PI * k2
     if (x0 >= PI) {
         zn = -1
         x0 -= PI
@@ -315,14 +309,8 @@ fun sin(x: Double, eps: Double): Double {
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
 fun cos(x: Double, eps: Double): Double {
-    var x0 = x
+    var x0 = x % (2 * PI)
     var zn = 1
-    var k1 = 0
-    var k2 = 0
-    while (x0 - 2 * PI * k1 > 0.0) k1++
-    x0 -= 2 * PI * k1
-    while (x0 + 2 * PI * k2 < 0.0) k2++
-    x0 += 2 * PI * k2
     if ((x0 >= PI / 2) && (x0 <= 3 * PI / 2)) {
         zn = -1
         if (x0 < PI) x0 -= PI
