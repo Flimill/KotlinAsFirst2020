@@ -13,6 +13,7 @@ import kotlin.math.sqrt
 // Вместе с предыдущими уроками = 24/33
 
 fun Int.toASCII() = (this + 97).toChar().toString()
+
 /**
  * Пример
  *
@@ -292,6 +293,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
     }
     return result
 }
+
 /**
  * Сложная (4 балла)
  *
@@ -321,7 +323,56 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var number = ""
+    var x = n
+    while (x > 999) {
+        number += "M"
+        x -= 1000
+    }
+    if (x >= 900) {
+        x -= 900
+        number += "CM"
+    }
+    if (x >= 500) {
+        number += "D"
+        x -= 500
+    }
+    if (x >= 400) {
+        number += "CD"
+        x -= 400
+    }
+    number += "C".repeat(x / 100)
+    x %= 100
+    if (x >= 90) {
+        number += "XC"
+        x -= 90
+    }
+    if (x >= 50) {
+        number += "L"
+        x -= 50
+    }
+    if (x >= 40) {
+        number += "XL"
+        x -= 40
+    }
+    number += "X".repeat(x / 10)
+    x %= 10
+    if (x == 9) {
+        x -= 9
+        number += "IX"
+    }
+    if (x >= 5) {
+        x -= 5
+        number += "V"
+    }
+    if (x == 4) {
+        x -= 4
+        number += "IV"
+    }
+    number += "I".repeat(x)
+    return number
+}
 
 /**
  * Очень сложная (7 баллов)
@@ -330,4 +381,99 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+
+fun russian1(n: Int, x: Int): String {
+    if (x == 0) return when (n) {
+        0 -> ""
+        1 -> "один"
+        2 -> "два"
+        3 -> "три"
+        4 -> "четыре"
+        5 -> "пять"
+        6 -> "шесть"
+        7 -> "семь"
+        8 -> "восемь"
+        else -> "девять"
+    }
+    else return when (n) {
+        0 -> " тысяч"
+        1 -> "одна тысяча"
+        2 -> "две тысячи"
+        3 -> "три тысячи"
+        4 -> "четыри тысячи"
+        5 -> "пять тысяч"
+        6 -> "шесть тысяч"
+        7 -> "семь тысяч"
+        8 -> "восемь тысяч"
+        else -> "девять тысяч"
+    }
+}
+
+
+fun russian10(n: Int, x: Int): String {
+    var result = ""
+    if (n < 10) return russian1(n, x)
+    if (n < 20) {
+        result = when (n) {
+            10 -> "десять"
+            11 -> "одинадцать"
+            12 -> "двенадцать"
+            13 -> "тринадцать"
+            14 -> "четырнадцать"
+            15 -> "пятнадцать"
+            16 -> "шестнадцать"
+            17 -> "семнадцать"
+            18 -> "восемнадцать"
+            else -> "девятнадцать"
+        }
+    } else {
+        result = when (n / 10) {
+            2 -> "двадцать"
+            3 -> "тридцать"
+            4 -> "сорок"
+            5 -> "пятьдесят"
+            6 -> "шестьдесят"
+            7 -> "семьдесят"
+            8 -> "восемьдесят"
+            else -> "девяносто"
+        }
+        if (n % 10 > 0) return result + " " + russian1(n % 10, x)
+    }
+    return if (x == 1) "$result тысяч"
+    else result
+}
+
+
+fun russian100(n: Int, x: Int): String {
+    var result = when (n / 100) {
+        1 -> "сто"
+        2 -> "двести"
+        3 -> "триста"
+        4 -> "четыреста"
+        5 -> "пятьсот"
+        6 -> "шестьсот"
+        7 -> "семьсот"
+        8 -> "восемьсот"
+        else -> "девятьсот"
+    }
+    if (n % 100 > 0) return result + " " + russian10(n % 100, x)
+    return if (x == 1) "$result тысяч"
+    else result
+}
+
+
+fun mediator(n: Int, x: Int): String {
+    return when {
+        n < 10 -> russian1(n, x)
+        n < 100 -> russian10(n, x)
+        else -> russian100(n, x)
+    }
+}
+
+
+fun russian(n: Int): String {
+    return if (n > 999) {
+        if (n % 1000 == 0) mediator(n / 1000, 1)
+        else mediator(n / 1000, 1) + " " + mediator(n % 1000, 0)
+    } else mediator(n, 0)
+}

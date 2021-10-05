@@ -2,6 +2,8 @@
 
 package lesson1.task1
 
+import lesson3.task1.digitNumber
+import lesson3.task1.isPalindrome
 import kotlin.math.*
 
 // Урок 1: простые функции
@@ -53,7 +55,7 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
  * Пример главной функции
  */
 fun main() {
-    println(seconds(8, 20, 35))
+    println(lesson4.task1.russian(981732))
 }
 
 /**
