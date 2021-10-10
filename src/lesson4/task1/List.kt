@@ -2,6 +2,7 @@
 
 package lesson4.task1
 
+import kotlinx.html.A
 import lesson1.task1.discriminant
 import lesson3.task1.isPrime
 import lesson3.task1.powInt
@@ -11,8 +12,8 @@ import kotlin.math.sqrt
 // Максимальное количество баллов = 12
 // Рекомендуемое количество баллов = 8
 // Вместе с предыдущими уроками = 24/33
-
-fun Int.toASCII() = (this + 97).toChar().toString()
+const val ASCII_a = 97
+fun Int.toASCII() = (this + ASCII_a).toChar().toString()
 
 /**
  * Пример
@@ -226,7 +227,6 @@ fun factorize(n: Int): List<Int> {
             }
         }
     }
-    mn.sorted()
     return mn
 }
 
@@ -309,7 +309,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
 fun decimalFromString(str: String, base: Int): Int {
     val list = mutableListOf<Int>()
     for (i in str.indices) {
-        if ((str[i].toInt() - 49) > 9) list.add((str[i].toChar().toInt() - 87))
+        if ((str[i].toInt() - ASCII_a) >= 0) list.add((str[i].toChar().toInt() - ASCII_a + 10))
         else list.add((str[i].toInt() - 48))
     }
     return decimal(list, base)
@@ -323,6 +323,13 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
+/*fun ifRoman(x: Int, number: String, lim: Int): Pair<Int, String> {
+    if (x >= lim) {
+        return (x - lim) to (number + "CM")
+    }
+    return x to number
+
+}*/
 fun roman(n: Int): String {
     var number = ""
     var x = n
@@ -330,9 +337,10 @@ fun roman(n: Int): String {
         number += "M"
         x -= 1000
     }
+    //(x, number) = ifRoman(x, number, 900)
     if (x >= 900) {
-        x -= 900
         number += "CM"
+        x -= 900
     }
     if (x >= 500) {
         number += "D"

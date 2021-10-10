@@ -292,7 +292,7 @@ fun sin(x: Double, eps: Double): Double {
         if (count % 2 == 1) a = -(x0.pow(n) / factor)
         else a = (x0.pow(n) / factor)
         sin += a
-        factor *= ((n + 1) * (n + 2)).toDouble()
+        factor *= (n + 1) * (n + 2)
         n += 2
         count++
     }
@@ -332,7 +332,7 @@ fun cos(x: Double, eps: Double): Double {
         if (count % 2 == 1) a = -(x0.pow(n) / factor)
         else a = (x0.pow(n) / factor)
         cos += a
-        factor *= ((n + 1) * (n + 2)).toDouble()
+        factor *= (n + 1) * (n + 2)
         n += 2
         count++
     }
@@ -359,7 +359,7 @@ fun squareSequenceDigit(n: Int): Int {
             count++
         }
         if (count == n) return sqr(i) % 10
-        if (count > n) return (sqr(i) / (10.0.pow((count - n).toDouble()).toInt())) % 10
+        if (count > n) return (sqr(i) / (10.powInt(count - n) % 10))
         i++
 
     }
@@ -391,7 +391,7 @@ fun fibSequenceDigit(n: Int): Int {
             count++
         }
         if (count == n) return c % 10
-        if (count > n) return (c / (10.0.pow((count - n).toDouble()).toInt())) % 10
+        if (count > n) return (c / (10.powInt(count - n) % 10))
 
     }
 }
