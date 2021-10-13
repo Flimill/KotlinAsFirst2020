@@ -323,21 +323,31 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-/*fun ifRoman(x: Int, number: String, lim: Int): Pair<Int, String> {
-    if (x >= lim) {
-        return (x - lim) to (number + "CM")
-    }
-    return x to number
-
-}*/
 fun roman(n: Int): String {
+    var x = n
+    val num = StringBuilder()
+    val listInt = listOf<Int>(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    val listString = listOf<String>("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    val exc = listOf<Int>(1, 10, 100, 1000)
+    for (i in listInt.indices) {
+        if (listInt[i] in exc) {
+            num.append(listString[i].repeat(x / listInt[i]))
+            x %= listInt[i]
+        }
+        if (x >= listInt[i]) {
+            num.append(listString[i])
+            x -= listInt[i]
+        }
+    }
+    return num.toString()
+}
+/*fun roman2(n: Int): String {
     var number = ""
     var x = n
-    while (x > 999) {
+    while (x > 1000) {
         number += "M"
         x -= 1000
     }
-    //(x, number) = ifRoman(x, number, 900)
     if (x >= 900) {
         number += "CM"
         x -= 900
@@ -380,7 +390,7 @@ fun roman(n: Int): String {
     }
     number += "I".repeat(x)
     return number
-}
+}*/
 
 /**
  * Очень сложная (7 баллов)
