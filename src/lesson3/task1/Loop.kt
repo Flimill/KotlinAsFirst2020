@@ -359,7 +359,7 @@ fun squareSequenceDigit(n: Int): Int {
             count++
         }
         if (count == n) return sqr(i) % 10
-        if (count > n) return (sqr(i) / (10.powInt(count - n) % 10))
+        if (count > n) return ((sqr(i) / 10.powInt(count - n)) % 10)
         i++
 
     }
@@ -391,7 +391,7 @@ fun fibSequenceDigit(n: Int): Int {
             count++
         }
         if (count == n) return c % 10
-        if (count > n) return (c / (10.powInt(count - n) % 10))
+        if (count > n) return ((c / 10.powInt(count - n)) % 10)
 
     }
 }
