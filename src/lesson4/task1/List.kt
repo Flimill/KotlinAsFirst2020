@@ -323,9 +323,9 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-val listInt = listOf<Int>(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
-val listString = listOf<String>("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
-val exc = listOf<Int>(1, 10, 100, 1000)
+val listInt = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+val listString = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+val exc = listOf(1, 10, 100, 1000)
 
 fun roman(n: Int): String {
     var x = n
@@ -342,56 +342,6 @@ fun roman(n: Int): String {
     }
     return num.toString()
 }
-/*fun roman2(n: Int): String {
-    var number = ""
-    var x = n
-    while (x > 1000) {
-        number += "M"
-        x -= 1000
-    }
-    if (x >= 900) {
-        number += "CM"
-        x -= 900
-    }
-    if (x >= 500) {
-        number += "D"
-        x -= 500
-    }
-    if (x >= 400) {
-        number += "CD"
-        x -= 400
-    }
-    number += "C".repeat(x / 100)
-    x %= 100
-    if (x >= 90) {
-        number += "XC"
-        x -= 90
-    }
-    if (x >= 50) {
-        number += "L"
-        x -= 50
-    }
-    if (x >= 40) {
-        number += "XL"
-        x -= 40
-    }
-    number += "X".repeat(x / 10)
-    x %= 10
-    if (x == 9) {
-        x -= 9
-        number += "IX"
-    }
-    if (x >= 5) {
-        x -= 5
-        number += "V"
-    }
-    if (x == 4) {
-        x -= 4
-        number += "IV"
-    }
-    number += "I".repeat(x)
-    return number
-}*/
 
 /**
  * Очень сложная (7 баллов)
@@ -435,7 +385,7 @@ fun russian10(n: Int, x: Int): String {
     if (n < 20) {
         result = when (n) {
             10 -> "десять"
-            11 -> "одинадцать"
+            11 -> "одиннадцать"
             12 -> "двенадцать"
             13 -> "тринадцать"
             14 -> "четырнадцать"

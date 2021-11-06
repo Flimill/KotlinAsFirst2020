@@ -2,6 +2,9 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+import java.lang.NullPointerException
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -74,7 +77,40 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+val months = listOf(
+    "января",
+    "февраля",
+    "марта",
+    "апреля",
+    "мая",
+    "июня",
+    "июля",
+    "августа",
+    "сентября",
+    "октября",
+    "ноября",
+    "декабря"
+)
+
+
+fun dateStrToDigit(str: String): String {
+    try {
+        val s = str.split(" ")
+        if (s.size != 3)
+            throw NumberFormatException("Description")
+        var m = ""
+        for (i in months.indices)
+            if (months[i] == s[1])
+                m = (i + 1).toString()
+        val date = listOf<Int>(s[0].toInt(), m.toInt(), s[2].toInt())
+        val days = daysInMonth(date[1], date[2])
+        if (date[0] > days)
+            throw NumberFormatException("Description")
+        return String.format("%02d.%02d.%02d", date[0], date[1], date[2])
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Средняя (4 балла)
@@ -86,8 +122,26 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    try {
+        val s = digital.split(".").toMutableList()
+        if (s.size != 3 || (s[1].toInt() !in 1..12))
+            return ""
+        val m = s[1].toInt()
+        for (i in months.indices)
+            if (i + 1 == m)
+                s[1] = months[i]
 
+        val days = daysInMonth(m, s[2].toInt())
+        if (s[0].toInt() > days)
+            return ""
+        s[0] = s[0].toInt().toString()
+        return s.joinToString(" ")
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+
+}
 /**
  * Средняя (4 балла)
  *

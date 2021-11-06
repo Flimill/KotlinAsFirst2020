@@ -2,6 +2,7 @@
 
 package lesson5.task1
 
+import org.w3c.dom.NamedNodeMap
 import ru.spbstu.wheels.joinToString
 import ru.spbstu.wheels.toMutableMap
 import java.lang.StringBuilder
@@ -142,7 +143,6 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *     -> a changes to mutableMapOf() aka becomes empty
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
-    //a = (a.filter { (key, value) -> !(key in b && b[key] == value) }).toMutableMap()
     for ((key, value) in b) {
         a.remove(key, value)
     }
@@ -214,7 +214,9 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
         map[first] = (map[first] ?: 0.0) + second
         mapCount[first] = (mapCount[first] ?: 0) + 1
     }
-    for ((key) in map) map[key] = (map[key] ?: 0.0) / mapCount[key]!!.toDouble()
+    for ((key) in map) {
+        map[key] = (map[key] ?: 0.0) / mapCount[key]!!.toDouble()
+    }
     return map
 }
 
@@ -236,11 +238,12 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
     var name: String? = null
     var price = Double.MAX_VALUE
-    for ((key, value) in stuff)
+    for ((key, value) in stuff) {
         if (value.first == kind && value.second < price) {
             price = value.second
             name = key
         }
+    }
     return name
 }
 
@@ -256,10 +259,13 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     var detector = true
     val lots = mutableSetOf<Char>()
-    for (c in chars) lots += c.toLowerCase()
+    for (c in chars) {
+        lots += c.toLowerCase()
+    }
     val lowWord = word.toLowerCase()
-    for (c in lowWord)
+    for (c in lowWord) {
         if (c !in lots) detector = false
+    }
     return detector
 }
 
@@ -278,7 +284,9 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
 fun additional(list: List<String>, lim: Int): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
     val lots = mutableSetOf<String>()
-    for (c in list) lots += c
+    for (c in list) {
+        lots += c
+    }
     for (c in lots) {
         val count = list.count { it == c }
         if (count > lim) map[c] = count
@@ -302,11 +310,11 @@ fun extractRepeats(list: List<String>): Map<String, Int> = additional(list, 1)
  */
 fun hasAnagrams(words: List<String>): Boolean {
     val name = mutableListOf<Map<String, Int>>()
-    for (c in words) name += additional(c.toList().map { it.toString() }, 0)
+    for (c in words) {
+        name += additional(c.toList().map { it.toString() }, 0)
+    }
     for (letters1 in name) {
-        var count = 0
-        for (letters2 in name)
-            if (letters1 == letters2) count++
+        var count = name.count { it == letters1 }
         if (count > 1) return true
     }
     return false
@@ -346,7 +354,34 @@ fun hasAnagrams(words: List<String>): Boolean {
  *          "GoodGnome" to setOf()
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
+
+fun cycle(friends: Map<String, Set<String>>, v: Set<String>, res: MutableSet<String>) {
+    for (name in v) {
+        res += name
+        if (name in friends && friends[name] != null)
+            cycle(friends, friends[name]!!, res)
+    }
+}
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+    val map = mutableMapOf<String, MutableSet<String>>()
+    for ((key, value) in friends) {
+        val res = mutableSetOf<String>()
+        cycle(friends, value, res)
+        var t = map.getOrPut(key) { mutableSetOf<String>() }
+        t += res
+        for (name in value) {
+            if (name !in friends)
+                map[name] = mutableSetOf()
+            /* я совершенно звпутался
+                Если убрать, цикл for, что выше, то всё работает, только не выполняется 2 часть условия
+                Если ввети print(map) после последнего значение в friends, то выдать нужное значение, но после выдаст ошибку
+                В рекурсию вроде не должны попадать значения, после которых res не изменяется
+              Если проблема в постоянной инициализации res и friends, то я не знаю, как это исправить
+             */
+        }
+    }
+    return map
+}
 
 /**
  * Сложная (6 баллов)
@@ -365,7 +400,13 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    for (element in list) {
+        if (number - element in list && list.indexOf(element) != list.indexOf(number - element))
+            return Pair(list.indexOf(element), list.indexOf(number - element))
+    }
+    return Pair(-1, -1)
+}
 
 /**
  * Очень сложная (8 баллов)
@@ -388,4 +429,6 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    return setOf()
+}
