@@ -227,6 +227,13 @@ class Tests {
                 "печенье"
             )
         )
+        assertEquals(
+            null,
+            findCheapestStuff(
+                mapOf(),
+                "печенье"
+            )
+        )
     }
 
     @Test

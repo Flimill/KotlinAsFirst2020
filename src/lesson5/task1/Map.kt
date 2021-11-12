@@ -353,8 +353,8 @@ fun hasAnagrams(words: List<String>): Boolean {
  */
 
 fun cycle(friends: Map<String, Set<String>>, v: Set<String>, res: MutableSet<String>) {
+    res += v
     for (name in v) {
-        res += name
         if (name in friends && friends[name] != null && friends[name]!!.intersect(res) != friends[name])
             cycle(friends, friends[name]!!, res)
     }
