@@ -2,10 +2,7 @@
 
 package lesson5.task1
 
-import org.w3c.dom.NamedNodeMap
-import ru.spbstu.wheels.joinToString
 import ru.spbstu.wheels.toMutableMap
-import java.lang.StringBuilder
 
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
@@ -358,26 +355,21 @@ fun hasAnagrams(words: List<String>): Boolean {
 fun cycle(friends: Map<String, Set<String>>, v: Set<String>, res: MutableSet<String>) {
     for (name in v) {
         res += name
-        if (name in friends && friends[name] != null)
+        if (name in friends && friends[name] != null && friends[name]!!.intersect(res) != friends[name])
             cycle(friends, friends[name]!!, res)
     }
 }
+
 fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
     val map = mutableMapOf<String, MutableSet<String>>()
     for ((key, value) in friends) {
         val res = mutableSetOf<String>()
         cycle(friends, value, res)
         var t = map.getOrPut(key) { mutableSetOf<String>() }
-        t += res
+        t += res - key
         for (name in value) {
             if (name !in friends)
                 map[name] = mutableSetOf()
-            /* я совершенно звпутался
-                Если убрать, цикл for, что выше, то всё работает, только не выполняется 2 часть условия
-                Если ввети print(map) после последнего значение в friends, то выдать нужное значение, но после выдаст ошибку
-                В рекурсию вроде не должны попадать значения, после которых res не изменяется
-              Если проблема в постоянной инициализации res и friends, то я не знаю, как это исправить
-             */
         }
     }
     return map
@@ -401,9 +393,10 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    for (element in list) {
-        if (number - element in list && list.indexOf(element) != list.indexOf(number - element))
-            return Pair(list.indexOf(element), list.indexOf(number - element))
+    val m = mutableMapOf<Int, Int>()
+    for (i in list.indices) {
+        if (list[i] in m) return Pair(m[list[i]]!!, i)
+        m[number - list[i]] = i
     }
     return Pair(-1, -1)
 }
@@ -429,6 +422,4 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    return setOf()
-}
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
