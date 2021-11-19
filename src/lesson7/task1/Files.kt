@@ -2,6 +2,8 @@
 
 package lesson7.task1
 
+import lesson3.task1.powInt
+import java.io.BufferedWriter
 import java.io.File
 
 // Урок 7: работа с файлами
@@ -84,15 +86,24 @@ fun deleteMarked(inputName: String, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
+fun search(line: String, sought: String, i: Int): Int {
+    for (j in sought.indices) {
+        if (sought[j].toLowerCase() != line[i + j].toLowerCase()) {
+            return 0
+        }
+    }
+    return 1
+}
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
     val result = mutableMapOf<String, Int>()
     for (sought in substrings)
         result[sought] = 0
     for (line in File(inputName).readLines()) {
-        for (sought in substrings) {
-            val entry = sought.toLowerCase().toRegex().findAll(line.toLowerCase())
-            for (c in entry) result[sought] = result[sought]!! + 1
-        }
+        for (i in line.indices)
+            for (sought in substrings)
+                if (sought[0].lowercaseChar() == line[i].toLowerCase() && (i + sought.length) <= line.length)
+                    result[sought] = result[sought]!! + search(line, sought.toLowerCase(), i)
+
     }
     return result
 }
@@ -469,6 +480,76 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  *
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    writer.write(" $lhv | $rhv")
+    writer.newLine()
+
+    var additional = 0
+    val lhvLength = lhv.toString().length
+    var indent = lhvLength - rhv.toString().length
+    if (lhv < rhv) {
+        writer.write(" ".repeat(lhvLength - 1) + "-0   0")
+        writer.newLine()
+        if (lhvLength == 1)
+            additional = 1
+        writer.write(" ".repeat(additional + lhvLength - 2) + "-".repeat(lhvLength + additional))
+        writer.newLine()
+        writer.write(" $lhv")
+    } else {
+        if (lhv / 10.powInt(indent) < rhv)
+            indent -= 1
+        var num = lhv / 10.powInt(indent) / rhv * rhv
+        var residual = lhv / 10.powInt(indent) - num
+        var verifiable = lhv % 10.powInt(indent)
+
+        writer.write("-$num" + " ".repeat(indent + 3) + (lhv / rhv).toString())
+        writer.newLine()
+        writer.write("-".repeat(num.toString().length + 1))
+        writer.newLine()
+        writer.write(" ".repeat(1 + num.toString().length - residual.toString().length) + residual.toString())
+
+        while (indent != 0) {
+            var dividend = residual * 10 + verifiable / (10.powInt(indent - 1))
+            writer.write((verifiable / (10.powInt(indent - 1))).toString())
+            var indentLeft = 1 + lhvLength - indent - residual.toString().length
+            if (residual == 0)
+                indentLeft++
+            verifiable %= 10.powInt(indent - 1)
+            indent -= 1
+
+            while (dividend < rhv && indent != 0) {
+                writer.newLine()
+                writer.write(" ".repeat(indentLeft + dividend.toString().length - 2) + "-0")
+                writer.newLine()
+                additional = if (dividend.toString().length == num.toString().length)
+                    1
+                else 0
+                writer.write(" ".repeat(indentLeft - additional) + "-".repeat(dividend.toString().length + additional))
+                writer.newLine()
+                dividend = dividend * 10 + verifiable / (10.powInt(indent - 1))
+                verifiable %= 10.powInt(indent - 1)
+                indent -= 1
+                writer.write(" ".repeat(indentLeft) + dividend.toString())
+            }
+
+            num = dividend / rhv * rhv
+            residual = dividend - num
+
+            if (indent == 0 && dividend < rhv) {
+                writer.close()
+            } else {
+                writer.newLine()
+                writer.write(" ".repeat(indentLeft - 1 + dividend.toString().length - num.toString().length) + "-$num")
+                writer.newLine()
+                additional = if (dividend.toString().length == num.toString().length)
+                    1
+                else 0
+                writer.write(" ".repeat(indentLeft - additional) + "-".repeat(dividend.toString().length + additional))
+                writer.newLine()
+                writer.write(" ".repeat(indentLeft + dividend.toString().length - residual.toString().length) + residual.toString())
+            }
+        }
+    }
+    writer.close()
 }
 

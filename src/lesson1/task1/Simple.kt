@@ -4,6 +4,14 @@ package lesson1.task1
 
 import lesson3.task1.digitNumber
 import lesson3.task1.isPalindrome
+import lesson3.task1.squareSequenceDigit
+import lesson4.task1.roman
+import lesson4.task1.russian
+import lesson5.task1.extractRepeats
+import lesson5.task1.findCheapestStuff
+import lesson6.task1.flattenPhoneNumber
+import lesson6.task1.plusMinus
+import java.io.File
 import kotlin.math.*
 
 // Урок 1: простые функции
@@ -54,9 +62,21 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
 /**
  * Пример главной функции
  */
-fun main() {
-    println(lesson4.task1.russian(981732))
-}
+
+
+/*fun main() {
+    val result = mutableMapOf<String, Int>()
+    for (sought in substrings)
+        result[sought] = 0
+    for (line in File(inputName).readLines()) {
+        for (sought in substrings) {
+            val entry = sought.toLowerCase().toRegex().findAll(line.toLowerCase())
+            for (c in entry) result[sought] = result[sought]!! + 1
+        }
+    }
+    return result
+
+}*/
 
 /**
  * Тривиальная (3 балла).
