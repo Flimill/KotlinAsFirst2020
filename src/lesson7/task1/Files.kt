@@ -513,11 +513,10 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             var dividend = residual * 10 + verifiable / (10.powInt(indent - 1))
             writer.write((verifiable / (10.powInt(indent - 1))).toString())
             var indentLeft = 1 + lhvLength - indent - residual.toString().length
-            var zero = 0
-            if (dividend == 0) {
+            var zero = if (dividend == 0) 1
+            else 0
+            if (residual == 0)
                 indentLeft++
-                zero = 1
-            }
             verifiable %= 10.powInt(indent - 1)
             indent -= 1
 
