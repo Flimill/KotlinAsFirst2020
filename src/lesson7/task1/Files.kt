@@ -535,19 +535,17 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             num = dividend / rhv * rhv
             residual = dividend - num
 
-            if (indent == 0 && dividend < rhv && dividend != 0) {
-                writer.close()
-            } else {
-                writer.newLine()
-                writer.write(" ".repeat(indentLeft - 1 + dividend.toString().length - num.toString().length) + "-$num")
-                writer.newLine()
-                additional = if (dividend.toString().length == num.toString().length)
-                    1
-                else 0
-                writer.write(" ".repeat(indentLeft - additional) + "-".repeat(dividend.toString().length + additional))
-                writer.newLine()
-                writer.write(" ".repeat(indentLeft + dividend.toString().length - residual.toString().length) + residual.toString())
-            }
+
+            writer.newLine()
+            writer.write(" ".repeat(indentLeft - 1 + dividend.toString().length - num.toString().length) + "-$num")
+            writer.newLine()
+            additional = if (dividend.toString().length == num.toString().length)
+                1
+            else 0
+            writer.write(" ".repeat(indentLeft - additional) + "-".repeat(dividend.toString().length + additional))
+            writer.newLine()
+            writer.write(" ".repeat(indentLeft + dividend.toString().length - residual.toString().length) + residual.toString())
+
         }
     }
     writer.close()
