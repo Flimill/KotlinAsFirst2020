@@ -514,7 +514,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             writer.write((verifiable / (10.powInt(indent - 1))).toString())
             var indentLeft = 1 + lhvLength - indent - residual.toString().length
             var zero = 0
-            if (residual == 0) {
+            if (dividend == 0) {
                 indentLeft++
                 zero = 1
             }
