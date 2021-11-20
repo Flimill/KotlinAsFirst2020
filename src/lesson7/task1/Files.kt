@@ -496,19 +496,18 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         writer.newLine()
         writer.write(" $lhv")
     } else {
-        if (lhv / 10.powInt(indent) < rhv) {
+        if (lhv / 10.powInt(indent) < rhv)
             indent -= 1
-            additional = 1
-        }
         var num = lhv / 10.powInt(indent) / rhv * rhv
         var residual = lhv / 10.powInt(indent) - num
         var verifiable = lhv % 10.powInt(indent)
-
-        writer.write(" ".repeat(additional) + "-$num" + " ".repeat(indent + 3) + (lhv / rhv).toString())
+        val space = if (num.toString().length != (lhv / 10.powInt(indent)).toString().length) 1
+        else 0
+        writer.write(" ".repeat(space) + "-$num" + " ".repeat(indent + 3) + (lhv / rhv).toString())
         writer.newLine()
-        writer.write(" ".repeat(additional) + "-".repeat(num.toString().length + 1))
+        writer.write(" ".repeat(space) + "-".repeat(num.toString().length + 1))
         writer.newLine()
-        writer.write(" ".repeat(1 + num.toString().length - residual.toString().length + additional) + residual.toString())
+        writer.write(" ".repeat(1 + num.toString().length - residual.toString().length + space) + residual.toString())
 
         while (indent != 0) {
             var dividend = residual * 10 + verifiable / (10.powInt(indent - 1))
