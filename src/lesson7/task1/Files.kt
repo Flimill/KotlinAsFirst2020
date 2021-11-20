@@ -99,8 +99,8 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     for (sought in substrings)
         result[sought] = 0
     for (line in File(inputName).readLines()) {
-        for (sought in substrings)
-            for (i in line.indices)
+        for (i in line.indices)
+            for (sought in substrings)
                 if (sought[0].lowercaseChar() == line[i].toLowerCase() && (i + sought.length) <= line.length)
                     result[sought] = result[sought]!! + search(line, sought.toLowerCase(), i)
 
@@ -517,7 +517,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             verifiable %= 10.powInt(indent - 1)
             indent -= 1
 
-            while (dividend < rhv && indent != 0) {
+            while (dividend < rhv && indent != 0 && dividend != 0) {
                 writer.newLine()
                 writer.write(" ".repeat(indentLeft + dividend.toString().length - 2) + "-0")
                 writer.newLine()
