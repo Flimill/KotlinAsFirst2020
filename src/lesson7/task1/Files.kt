@@ -500,14 +500,12 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         if (lhv < rhv) {
             writer.write(" ".repeat(lhvLength + firstIndent - 2) + "-0   0")
             writer.newLine()
-            if (lhvLength == 1)
-                additional = 1
             writer.write(
-                " ".repeat(additional + lhvLength - 2)
+                " ".repeat(firstIndent)
                         + "-".repeat(lhvLength + additional)
             )
             writer.newLine()
-            writer.write(" $lhv")
+            writer.write("$lhv")
         } else {
             if (lhv / 10.powInt(indent) < rhv)
                 indent -= 1
