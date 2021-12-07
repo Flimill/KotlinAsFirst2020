@@ -533,7 +533,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
                 var dividend = residual * 10 + verifiable / (10.powInt(indent - 1))
                 writer.write((verifiable / (10.powInt(indent - 1))).toString())
                 var indentLeft = 1 + lhvLength - indent - digitNumber(residual)
-                var zero = if (dividend == 0) 1
+                var zero = if (residual == 0) 1
                 else 0
                 if (residual == 0)
                     indentLeft++
