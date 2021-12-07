@@ -488,14 +488,17 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     writer.use { writer ->
-        writer.write(" $lhv | $rhv")
-        writer.newLine()
 
         var additional = 0
         val lhvLength = digitNumber(lhv)
         var indent = lhvLength - digitNumber((rhv))
+
+        val firstIndent = if (lhv < rhv && lhvLength != 1) 0 else 1
+        writer.write(" ".repeat(firstIndent) + "$lhv | $rhv")
+        writer.newLine()
+
         if (lhv < rhv) {
-            writer.write(" ".repeat(lhvLength - 1) + "-0   0")
+            writer.write(" ".repeat(lhvLength + firstIndent - 2) + "-0   0")
             writer.newLine()
             if (lhvLength == 1)
                 additional = 1
