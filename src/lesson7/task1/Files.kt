@@ -2,6 +2,7 @@
 
 package lesson7.task1
 
+import lesson3.task1.digitNumber
 import lesson3.task1.powInt
 import java.io.BufferedWriter
 import java.io.File
@@ -66,15 +67,18 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  */
 fun deleteMarked(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
-    for (line in File(inputName).readLines()) {
-        if (line.isEmpty())
-            writer.newLine()
-        else if (line[0] != '_') {
-            writer.write(line)
-            writer.newLine()
+    try {
+        for (line in File(inputName).readLines()) {
+            if (line.isEmpty())
+                writer.newLine()
+            else if (line[0] != '_') {
+                writer.write(line)
+                writer.newLine()
+            }
         }
+    } finally {
+        writer.close()
     }
-    writer.close()
 }
 
 /**
@@ -94,13 +98,15 @@ fun search(line: String, sought: String, i: Int): Int {
     }
     return 1
 }
+
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
     val result = mutableMapOf<String, Int>()
+    val substringsSet = substrings.toSet()
     for (sought in substrings)
         result[sought] = 0
     for (line in File(inputName).readLines()) {
         for (i in line.indices)
-            for (sought in substrings)
+            for (sought in substringsSet)
                 if (sought[0].lowercaseChar() == line[i].toLowerCase() && (i + sought.length) <= line.length)
                     result[sought] = result[sought]!! + search(line, sought.toLowerCase(), i)
 
@@ -299,15 +305,15 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
  *
  * Соответствующий выходной файл:
 <html>
-    <body>
-        <p>
-            Lorem ipsum <i>dolor sit amet</i>, consectetur <b>adipiscing</b> elit.
-            Vestibulum lobortis. <s>Est vehicula rutrum <i>suscipit</i></s>, ipsum <s>lib</s>ero <i>placerat <b>tortor</b></i>.
-        </p>
-        <p>
-            Suspendisse <s>et elit in enim tempus iaculis</s>.
-        </p>
-    </body>
+<body>
+<p>
+Lorem ipsum <i>dolor sit amet</i>, consectetur <b>adipiscing</b> elit.
+Vestibulum lobortis. <s>Est vehicula rutrum <i>suscipit</i></s>, ipsum <s>lib</s>ero <i>placerat <b>tortor</b></i>.
+</p>
+<p>
+Suspendisse <s>et elit in enim tempus iaculis</s>.
+</p>
+</body>
 </html>
  *
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
@@ -350,65 +356,65 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  *
  * Пример входного файла:
 ///////////////////////////////начало файла/////////////////////////////////////////////////////////////////////////////
-* Утка по-пекински
-    * Утка
-    * Соус
-* Салат Оливье
-    1. Мясо
-        * Или колбаса
-    2. Майонез
-    3. Картофель
-    4. Что-то там ещё
-* Помидоры
-* Фрукты
-    1. Бананы
-    23. Яблоки
-        1. Красные
-        2. Зелёные
+ * Утка по-пекински
+ * Утка
+ * Соус
+ * Салат Оливье
+1. Мясо
+ * Или колбаса
+2. Майонез
+3. Картофель
+4. Что-то там ещё
+ * Помидоры
+ * Фрукты
+1. Бананы
+23. Яблоки
+1. Красные
+2. Зелёные
 ///////////////////////////////конец файла//////////////////////////////////////////////////////////////////////////////
  *
  *
  * Соответствующий выходной файл:
 ///////////////////////////////начало файла/////////////////////////////////////////////////////////////////////////////
 <html>
-  <body>
-    <p>
-      <ul>
-        <li>
-          Утка по-пекински
-          <ul>
-            <li>Утка</li>
-            <li>Соус</li>
-          </ul>
-        </li>
-        <li>
-          Салат Оливье
-          <ol>
-            <li>Мясо
-              <ul>
-                <li>Или колбаса</li>
-              </ul>
-            </li>
-            <li>Майонез</li>
-            <li>Картофель</li>
-            <li>Что-то там ещё</li>
-          </ol>
-        </li>
-        <li>Помидоры</li>
-        <li>Фрукты
-          <ol>
-            <li>Бананы</li>
-            <li>Яблоки
-              <ol>
-                <li>Красные</li>
-                <li>Зелёные</li>
-              </ol>
-            </li>
-          </ol>
-        </li>
-      </ul>
-    </p>
-  </body>
+<body>
+<p>
+<ul>
+<li>
+Утка по-пекински
+<ul>
+<li>Утка</li>
+<li>Соус</li>
+</ul>
+</li>
+<li>
+Салат Оливье
+<ol>
+<li>Мясо
+<ul>
+<li>Или колбаса</li>
+</ul>
+</li>
+<li>Майонез</li>
+<li>Картофель</li>
+<li>Что-то там ещё</li>
+</ol>
+</li>
+<li>Помидоры</li>
+<li>Фрукты
+<ol>
+<li>Бананы</li>
+<li>Яблоки
+<ol>
+<li>Красные</li>
+<li>Зелёные</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+</p>
+</body>
 </html>
 ///////////////////////////////конец файла//////////////////////////////////////////////////////////////////////////////
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
@@ -435,23 +441,23 @@ fun markdownToHtml(inputName: String, outputName: String) {
  * Вывести в выходной файл процесс умножения столбиком числа lhv (> 0) на число rhv (> 0).
  *
  * Пример (для lhv == 19935, rhv == 111):
-   19935
-*    111
+19935
+ *    111
 --------
-   19935
+19935
 + 19935
 +19935
 --------
- 2212785
+2212785
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  * Нули в множителе обрабатывать так же, как и остальные цифры:
-  235
-*  10
+235
+ *  10
 -----
-    0
+0
 +235
 -----
- 2350
+2350
  *
  */
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
@@ -465,92 +471,117 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  * Вывести в выходной файл процесс деления столбиком числа lhv (> 0) на число rhv (> 0).
  *
  * Пример (для lhv == 19935, rhv == 22):
-  19935 | 22
- -198     906
- ----
-    13
-    -0
-    --
-    135
-   -132
-   ----
-      3
+19935 | 22
+-198     906
+----
+13
+-0
+--
+135
+-132
+----
+3
 
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  *
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
-    writer.write(" $lhv | $rhv")
-    writer.newLine()
+    writer.use { writer ->
+        writer.write(" $lhv | $rhv")
+        writer.newLine()
 
-    var additional = 0
-    val lhvLength = lhv.toString().length
-    var indent = lhvLength - rhv.toString().length
-    if (lhv < rhv) {
-        writer.write(" ".repeat(lhvLength - 1) + "-0   0")
-        writer.newLine()
-        if (lhvLength == 1)
-            additional = 1
-        writer.write(" ".repeat(additional + lhvLength - 2) + "-".repeat(lhvLength + additional))
-        writer.newLine()
-        writer.write(" $lhv")
-    } else {
-        if (lhv / 10.powInt(indent) < rhv)
-            indent -= 1
-        var num = lhv / 10.powInt(indent) / rhv * rhv
-        var residual = lhv / 10.powInt(indent) - num
-        var verifiable = lhv % 10.powInt(indent)
-        val space = if (num.toString().length != (lhv / 10.powInt(indent)).toString().length) 1
-        else 0
-        writer.write(" ".repeat(space) + "-$num" + " ".repeat(indent + 3) + (lhv / rhv).toString())
-        writer.newLine()
-        writer.write(" ".repeat(space) + "-".repeat(num.toString().length + 1))
-        writer.newLine()
-        writer.write(" ".repeat(1 + num.toString().length - residual.toString().length + space) + residual.toString())
-
-        while (indent != 0) {
-            var dividend = residual * 10 + verifiable / (10.powInt(indent - 1))
-            writer.write((verifiable / (10.powInt(indent - 1))).toString())
-            var indentLeft = 1 + lhvLength - indent - residual.toString().length
-            var zero = if (dividend == 0) 1
+        var additional = 0
+        val lhvLength = digitNumber(lhv)
+        var indent = lhvLength - digitNumber((rhv))
+        if (lhv < rhv) {
+            writer.write(" ".repeat(lhvLength - 1) + "-0   0")
+            writer.newLine()
+            if (lhvLength == 1)
+                additional = 1
+            writer.write(
+                " ".repeat(additional + lhvLength - 2)
+                        + "-".repeat(lhvLength + additional)
+            )
+            writer.newLine()
+            writer.write(" $lhv")
+        } else {
+            if (lhv / 10.powInt(indent) < rhv)
+                indent -= 1
+            val cut = 10.powInt(indent)
+            var num = lhv / cut / rhv * rhv
+            var residual = lhv / cut - num
+            var verifiable = lhv % cut
+            val space = if (digitNumber(num) != digitNumber(lhv / cut)) 1
             else 0
-            if (residual == 0)
-                indentLeft++
-            verifiable %= 10.powInt(indent - 1)
-            indent -= 1
+            writer.write(
+                " ".repeat(space) + "-$num"
+                        + " ".repeat(indent + 3) + (lhv / rhv).toString()
+            )
+            writer.newLine()
+            writer.write(" ".repeat(space) + "-".repeat(digitNumber(num) + 1))
+            writer.newLine()
+            writer.write(
+                " ".repeat(1 + digitNumber(num) - digitNumber(residual) + space)
+                        + residual.toString()
+            )
 
-            while (dividend < rhv && indent != 0 && dividend != 0) {
-                writer.newLine()
-                writer.write(" ".repeat(indentLeft + dividend.toString().length - 2) + "-0")
-                writer.newLine()
-                additional = if (dividend.toString().length == num.toString().length)
-                    1
+            while (indent != 0) {
+                var dividend = residual * 10 + verifiable / (10.powInt(indent - 1))
+                writer.write((verifiable / (10.powInt(indent - 1))).toString())
+                var indentLeft = 1 + lhvLength - indent - digitNumber(residual)
+                var zero = if (dividend == 0) 1
                 else 0
-                writer.write(" ".repeat(indentLeft - additional - zero) + "-".repeat(dividend.toString().length + additional + zero))
-                writer.newLine()
-                dividend = dividend * 10 + verifiable / (10.powInt(indent - 1))
+                if (residual == 0)
+                    indentLeft++
                 verifiable %= 10.powInt(indent - 1)
                 indent -= 1
-                writer.write(" ".repeat(indentLeft) + dividend.toString())
+
+                while (dividend < rhv && indent != 0 && dividend != 0) {
+                    writer.newLine()
+                    writer.write(" ".repeat(indentLeft + digitNumber(dividend) - 2) + "-0")
+                    writer.newLine()
+                    additional = if (digitNumber(dividend) == digitNumber(num))
+                        1
+                    else 0
+                    writer.write(
+                        " ".repeat(indentLeft - additional - zero)
+                                + "-".repeat(digitNumber(dividend) + additional + zero)
+                    )
+                    writer.newLine()
+                    dividend = dividend * 10 + verifiable / (10.powInt(indent - 1))
+                    verifiable %= 10.powInt(indent - 1)
+                    indent -= 1
+                    writer.write(" ".repeat(indentLeft) + dividend.toString())
+                }
+
+                num = dividend / rhv * rhv
+                residual = dividend - num
+
+
+                writer.newLine()
+                writer.write(
+                    " ".repeat(
+                        indentLeft - 1 + digitNumber(dividend) - digitNumber(num)
+                    ) + "-$num"
+                )
+                writer.newLine()
+                additional = if (digitNumber(dividend) == digitNumber(num))
+                    1
+                else 0
+                writer.write(
+                    " ".repeat(indentLeft - additional)
+                            + "-".repeat(digitNumber(dividend) + additional)
+                )
+                writer.newLine()
+                writer.write(
+                    " ".repeat(
+                        indentLeft + digitNumber(dividend) - digitNumber(residual)
+                    ) + residual.toString()
+                )
+
             }
-
-            num = dividend / rhv * rhv
-            residual = dividend - num
-
-
-            writer.newLine()
-            writer.write(" ".repeat(indentLeft - 1 + dividend.toString().length - num.toString().length) + "-$num")
-            writer.newLine()
-            additional = if (dividend.toString().length == num.toString().length)
-                1
-            else 0
-            writer.write(" ".repeat(indentLeft - additional) + "-".repeat(dividend.toString().length + additional))
-            writer.newLine()
-            writer.write(" ".repeat(indentLeft + dividend.toString().length - residual.toString().length) + residual.toString())
-
         }
     }
-    writer.close()
 }
 
