@@ -585,7 +585,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
                 " ".repeat(1 + digitNumber(num) - digitNumber(residual) + space)
                         + residual.toString()
             )
-
+            num = -0
             while (indent != 0) {
                 var dividend = residual * 10 + verifiable / (10.powInt(indent - 1))
                 writer.write((verifiable / (10.powInt(indent - 1))).toString())
