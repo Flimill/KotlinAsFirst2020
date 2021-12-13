@@ -4,6 +4,7 @@ package lesson7.task1
 
 import lesson3.task1.digitNumber
 import lesson3.task1.powInt
+import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.File
 
@@ -420,8 +421,69 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlLists(inputName: String, outputName: String) {
-    TODO()
+    File(outputName).bufferedReader().use { reader ->
+        File(outputName).bufferedWriter().use { writer ->
+            writer.write("<html> <body> <p>")
+            steps(0, "", reader, writer)
+            writer.write("<p> <body> <html>")
+        }
+    }
 }
+
+fun steps(depth: Int, line: String, reader: BufferedReader, writer: BufferedWriter): String {
+    var count = 0
+    var tip = " "
+    var line2 = if (line == "")
+        reader.readLine()
+    else line
+    if (line2 == null)
+        return ""
+    var gaps = 0
+    while (line2[gaps] == ' ')
+        gaps++
+    while (gaps == depth * 4) {
+        if (line2[gaps] == '*') {
+            if (count == 0) {
+                tip = "Ненумерованный"
+                writer.write("<ul><li>" + line2.removeRange(0 until gaps) + "</li>")
+            } else {
+                writer.write("<li>" + line2.removeRange(0 until gaps) + "</li>")
+            }
+
+        } else {
+            var remove = gaps
+            while (line2[remove] != '.')
+                remove++
+            if (count == 0) {
+                tip = "Нумерованный"
+                writer.write("<ol><li>" + line2.removeRange(0 until remove) + "</li>")
+            } else {
+                writer.write("<li>" + line2.removeRange(0 until remove) + "</li>")
+            }
+
+        }
+
+
+        count++
+        line2 = reader.readLine()
+        if (line2 == null)
+            return ""
+        gaps = 0
+        while (line2[gaps] == ' ')
+            gaps++
+        if ((gaps > depth * 4)) {
+            line2 = steps(depth + 1, line2, reader, writer)
+        }
+    }
+    if (tip == "Ненумерованный") {
+        writer.write("</ul>")
+    } else {
+        writer.write("</ol>")
+    }
+    writer.newLine()
+    return (line2)
+}
+
 
 /**
  * Очень сложная (30 баллов)
