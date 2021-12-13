@@ -22,7 +22,12 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String {
+        if (!inside())
+            return ""
+        val columnChar = ('a' - 1 + column).toString()
+        return "$columnChar$row"
+    }
 }
 
 /**
@@ -98,7 +103,14 @@ fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Примеры: bishopMoveNumber(Square(3, 1), Square(6, 3)) = -1; bishopMoveNumber(Square(3, 1), Square(3, 7)) = 2.
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
-fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
+fun bishopMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside())
+        throw IllegalArgumentException()
+    if (!(end.row.mod(2) == end.column.mod(2) && start.row.mod(2) == start.column.mod(2) ||
+                end.row.mod(2) != end.column.mod(2) && start.row.mod(2) != start.column.mod(2)))
+        return -1
+    return 0
+}
 
 /**
  * Сложная (5 баллов)

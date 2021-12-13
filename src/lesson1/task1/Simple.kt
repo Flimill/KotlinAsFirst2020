@@ -11,6 +11,7 @@ import lesson5.task1.extractRepeats
 import lesson5.task1.findCheapestStuff
 import lesson6.task1.flattenPhoneNumber
 import lesson6.task1.plusMinus
+import lesson7.task1.printDivisionProcess
 import java.io.File
 import kotlin.math.*
 
@@ -63,20 +64,10 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
  * Пример главной функции
  */
 
-
-/*fun main() {
-    val result = mutableMapOf<String, Int>()
-    for (sought in substrings)
-        result[sought] = 0
-    for (line in File(inputName).readLines()) {
-        for (sought in substrings) {
-            val entry = sought.toLowerCase().toRegex().findAll(line.toLowerCase())
-            for (c in entry) result[sought] = result[sought]!! + 1
-        }
-    }
-    return result
-
-}*/
+fun main() {
+    println("123456".removeRange(0..0))
+    //"Иваонов Пётр: улица Ленина, 41, кв. 2".matches(Regex("""[а-яA-Я]+\s[а-яA-Я]+:(\s[а-яA-Я]+)+,\s\d+,\sкв\.\s\d+"""))
+}
 
 /**
  * Тривиальная (3 балла).
