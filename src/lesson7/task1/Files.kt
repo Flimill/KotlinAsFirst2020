@@ -421,7 +421,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlLists(inputName: String, outputName: String) {
-    File(outputName).bufferedReader().use { reader ->
+    File(inputName).bufferedReader().use { reader ->
         File(outputName).bufferedWriter().use { writer ->
             writer.write("<html> <body> <p>")
             steps(0, "", reader, writer)
@@ -445,9 +445,9 @@ fun steps(depth: Int, line: String, reader: BufferedReader, writer: BufferedWrit
         if (line2[gaps] == '*') {
             if (count == 0) {
                 tip = "Ненумерованный"
-                writer.write("<ul><li>" + line2.removeRange(0 until gaps) + "</li>")
+                writer.write("<ul><li>" + line2.removeRange(0..gaps))
             } else {
-                writer.write("<li>" + line2.removeRange(0 until gaps) + "</li>")
+                writer.write("<li>" + line2.removeRange(0..gaps) )
             }
 
         } else {
@@ -456,9 +456,9 @@ fun steps(depth: Int, line: String, reader: BufferedReader, writer: BufferedWrit
                 remove++
             if (count == 0) {
                 tip = "Нумерованный"
-                writer.write("<ol><li>" + line2.removeRange(0 until remove) + "</li>")
+                writer.write("<ol><li>" + line2.removeRange(0..remove))
             } else {
-                writer.write("<li>" + line2.removeRange(0 until remove) + "</li>")
+                writer.write("<li>" + line2.removeRange(0..remove))
             }
 
         }
@@ -476,10 +476,11 @@ fun steps(depth: Int, line: String, reader: BufferedReader, writer: BufferedWrit
         }
     }
     if (tip == "Ненумерованный") {
-        writer.write("</ul>")
+        writer.write("</ul>" + "</li>")
     } else {
-        writer.write("</ol>")
+        writer.write("</ol>" + "</li>")
     }
+
     writer.newLine()
     return (line2)
 }
@@ -601,12 +602,9 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
                     writer.newLine()
                     writer.write(" ".repeat(indentLeft + digitNumber(dividend) - 2) + "-0")
                     writer.newLine()
-                    additional = if (digitNumber(dividend) == digitNumber(num))
-                        1
-                    else 0
                     writer.write(
-                        " ".repeat(indentLeft - additional - zero)
-                                + "-".repeat(digitNumber(dividend) + additional + zero)
+                        " ".repeat(indentLeft  - zero)
+                                + "-".repeat(digitNumber(dividend)  + zero)
                     )
                     writer.newLine()
                     dividend = dividend * 10 + verifiable / (10.powInt(indent - 1))
