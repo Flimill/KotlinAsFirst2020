@@ -574,11 +574,12 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     writer.use { writer ->
 
+
         var additional = 0
         val lhvLength = digitNumber(lhv)
         var indent = lhvLength - digitNumber((rhv))
 
-        val firstIndent = if (lhv < rhv && lhvLength != 1) 0 else 1
+        val firstIndent = if (digitNumber(lhv / rhv * rhv) == lhvLength || lhvLength == 1) 1 else 0
         writer.write(" ".repeat(firstIndent) + "$lhv | $rhv")
         writer.newLine()
 
@@ -595,17 +596,12 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             var num = lhv / cut / rhv * rhv
             var residual = lhv / cut - num
             var verifiable = lhv % cut
-            val space = if (digitNumber(num) != digitNumber(lhv / cut)) 1
-            else 0
-            writer.write(
-                " ".repeat(space) + "-$num"
-                        + " ".repeat(indent + 3) + (lhv / rhv).toString()
-            )
+            writer.write("-$num" + " ".repeat(indent + 3) + (lhv / rhv).toString())
             writer.newLine()
-            writer.write(" ".repeat(space) + "-".repeat(digitNumber(num) + 1))
+            writer.write("-".repeat(digitNumber(num) + 1))
             writer.newLine()
             writer.write(
-                " ".repeat(1 + digitNumber(num) - digitNumber(residual) + space)
+                " ".repeat(digitNumber(num) - digitNumber(residual) + firstIndent)
                         + residual.toString()
             )
             num = -0
@@ -619,6 +615,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
                     indentLeft++
                 verifiable %= 10.powInt(indent - 1)
                 indent -= 1
+
 
                 while (dividend < rhv && indent != 0 && dividend != 0) {
                     writer.newLine()
