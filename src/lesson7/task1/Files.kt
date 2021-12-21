@@ -425,7 +425,7 @@ fun markdownToHtmlLists(inputName: String, outputName: String) {
         File(outputName).bufferedWriter().use { writer ->
             writer.write("<html> <body> <p>")
             steps(0, "", reader, writer)
-            writer.write("<p> <body> <html>")
+            writer.write("</p> </body> </html>")
         }
     }
 }
@@ -436,18 +436,18 @@ fun steps(depth: Int, line: String, reader: BufferedReader, writer: BufferedWrit
     var line2 = if (line == "")
         reader.readLine()
     else line
-    if (line2 == null)
-        return ""
+
     var gaps = 0
     while (line2[gaps] == ' ')
         gaps++
+
     while (gaps == depth * 4) {
         if (line2[gaps] == '*') {
             if (count == 0) {
                 tip = "Ненумерованный"
                 writer.write("<ul><li>" + line2.removeRange(0..gaps))
             } else {
-                writer.write("<li>" + line2.removeRange(0..gaps) )
+                writer.write("<li>" + line2.removeRange(0..gaps))
             }
 
         } else {
@@ -463,25 +463,47 @@ fun steps(depth: Int, line: String, reader: BufferedReader, writer: BufferedWrit
 
         }
 
-
         count++
         line2 = reader.readLine()
-        if (line2 == null)
-            return ""
+
+        if (line2 == null) {
+            line2 = ""
+            writer.write("</li>")
+            gaps = -1
+            break
+        }
+
         gaps = 0
         while (line2[gaps] == ' ')
             gaps++
+
         if ((gaps > depth * 4)) {
             line2 = steps(depth + 1, line2, reader, writer)
         }
+
+        if (line2 == "") {
+            writer.write("</li>")
+            gaps = -1
+            break
+        }
+
+        gaps = 0
+        while (line2[gaps] == ' ')
+            gaps++
+
+        if ((gaps <= depth * 4))
+            writer.write("</li>")
+
     }
-    if (tip == "Ненумерованный") {
-        writer.write("</ul>" + "</li>")
-    } else {
-        writer.write("</ol>" + "</li>")
+    if ((gaps < depth * 4)) {
+        if (tip == "Ненумерованный") {
+            writer.write("</ul>")
+        } else if (tip == "Нумерованный") {
+            writer.write("</ol>")
+        }
+
     }
 
-    writer.newLine()
     return (line2)
 }
 
