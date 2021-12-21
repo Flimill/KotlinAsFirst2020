@@ -104,14 +104,15 @@ fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
-    if (!start.inside() || !end.inside())
+    TODO()
+    /*if (!start.inside() || !end.inside())
         throw IllegalArgumentException()
     if (!(end.row.mod(2) == end.column.mod(2) && start.row.mod(2) == start.column.mod(2) ||
                 end.row.mod(2) != end.column.mod(2) && start.row.mod(2) != start.column.mod(2)))
         return -1
-    return 0
+    return 0*/
 }
-
+// недоделано
 /**
  * Сложная (5 баллов)
  *
