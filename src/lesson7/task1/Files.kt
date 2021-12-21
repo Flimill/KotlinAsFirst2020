@@ -601,7 +601,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             writer.write("-".repeat(digitNumber(num) + 1))
             writer.newLine()
             writer.write(
-                " ".repeat(digitNumber(num) - digitNumber(residual) + firstIndent)
+                " ".repeat(digitNumber(num) - digitNumber(residual) + 1)
                         + residual.toString()
             )
             num = -0
