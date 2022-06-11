@@ -67,7 +67,7 @@ $ git commit -m "Add remotes file"
  1 file changed, 6 insertions(+)
  create mode 100644 remotes
 
-### Создал howto.md и коммитил
+### Создал howto.md и закоммитил
 $ touch howto.md
 
 
