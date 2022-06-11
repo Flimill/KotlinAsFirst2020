@@ -47,7 +47,7 @@ $ git remote add upstream-theirs https://github.com/Flimill/KotlinAsFirst2021
 
 artem@DESKTOP-BCL12B7 MINGW64 ~/KotlinAsFirst2020 (master)
 $ git fetch upstream-theirs
-From https://github.com/Flimill/KotlinAsFirst2021
+From https://github.com/Keshaqwertys/KotlinAsFirst2021
  * [new branch]      master     -> upstream-theirs/master
 
 artem@DESKTOP-BCL12B7 MINGW64 ~/KotlinAsFirst2020 (master)
