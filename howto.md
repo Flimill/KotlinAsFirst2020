@@ -11,7 +11,7 @@ $ git fetch upstream-my
 $ git rebase --onto master 1137b420cc95fa6894edad69b31e2da1bb985d1d upstream-my/master
 Successfully rebased and updated detached HEAD.
 
-###Создал ветку backport и загрузил коммиты
+### Создал ветку backport и загрузил коммиты
 
 $ git branch backport
 
