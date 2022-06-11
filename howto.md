@@ -9,6 +9,7 @@ $ git remote add upstream-my https://github.com/Flimill/KotlinAsFirst2021
 ### Сделал rebase upstream-my в ветку master
 $ git fetch upstream-my
 $ git rebase --onto master 1137b420cc95fa6894edad69b31e2da1bb985d1d upstream-my/master
+
 Successfully rebased and updated detached HEAD.
 
 ### Создал ветку backport и загрузил коммиты
@@ -16,11 +17,13 @@ Successfully rebased and updated detached HEAD.
 $ git branch backport
 
 $ git checkout master
+
 Previous HEAD position was 3167012 les 11
 Switched to branch 'master'
 Your branch is up to date with 'origin/master'.
 
 $ git merge backport
+
 Updating d535f35..3167012
 Fast-forward
  input/tst.txt                          |   1 +
@@ -47,10 +50,12 @@ $ git remote add upstream-theirs https://github.com/Keshaqwertys/KotlinAsFirst20
 
 ### Сделал его merge с веткой master
 $ git fetch upstream-theirs
+
 From https://github.com/Keshaqwertys/KotlinAsFirst2021
  * [new branch]      master     -> upstream-theirs/master
 
 $ git merge -s ours upstream-theirs/master
+
 Merge made by the 'ours' strategy.
 
 ### Создал файл remote и закоммитил
@@ -58,11 +63,13 @@ $ git remote -v > remotes
 
 
 $ git add remotes
+
 warning: LF will be replaced by CRLF in remotes.
 The file will have its original line endings in your working directory
 
 
 $ git commit -m "Add remotes file"
+
 [master 5f1f78f] Add remotes file
  1 file changed, 6 insertions(+)
  create mode 100644 remotes
@@ -75,12 +82,14 @@ $ git add howto.md
 
 
 $ git commit -m "Add howto.md"
+
 [master ccf7ebf] Add howto.md
  1 file changed, 0 insertions(+), 0 deletions(-)
  create mode 100644 howto.md
 
 ### Загрузил на github
 $ git push
+
 Enumerating objects: 741, done.
 Counting objects: 100% (741/741), done.
 Delta compression using up to 4 threads
@@ -93,10 +102,12 @@ To https://github.com/Flimill/KotlinAsFirst2020
 
 
 $ git checkout backport
+
 Switched to branch 'backport'
 
 
 $ git push --set-upstream origin backport
+
 Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
 remote:
 remote: Create a pull request for 'backport' on GitHub by visiting:
