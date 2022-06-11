@@ -8,6 +8,7 @@ $ git remote add upstream-my https://github.com/Flimill/KotlinAsFirst2021
 
 ### Сделал rebase upstream-my в ветку master
 $ git fetch upstream-my
+
 $ git rebase --onto master 1137b420cc95fa6894edad69b31e2da1bb985d1d upstream-my/master
 
 Successfully rebased and updated detached HEAD.
